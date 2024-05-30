@@ -1,0 +1,3 @@
+[submodule "Assets/HSV-Color-Picker-Unity"]
+	path = Assets/HSV-Color-Picker-Unity
+	url = git@github.com:em-yu/HSV-Color-Picker-Unity.git
