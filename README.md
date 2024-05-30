@@ -25,15 +25,67 @@ If building on this work, please consider citing our paper:
 }
 ```
 
+## Requirements
+
+- Quest 2/3/Pro headset with AirLink or Link cable (a good USB-C to USB-A cable in a USB 3.0 port should work). This app is well suited to use sitting down, so a short cable is usually enough.
+- Compatible Windows PC: https://www.meta.com/help/quest/articles/headsets-and-accessories/oculus-link/requirements-quest-link/
+- Meta Quest Link software (also called "Oculus PC app")
+- Unity Hub
 
 ## Setup
-- Install Unity Hub
+
+- Clone the project and pull the submodule (color picker)
+
+  ```bash
+  git clone git@github.com:graphdeco-inria/3dlayers.git
+  cd 3dlayers
+  git submodule update --init
+  ```
+
 - Projects -> Add project from disk -> Choose the location where you cloned the repo
+
 - Unity will prompt for installation of the correct version (2020.3.44f1). It is also useful to install Visual Studio at this point if you do not have it. VS will help with developing and debugging C# scripts for Unity.
+
 - Load TextMeshPro Essentials (otherwise the text will show as pink squares): `Window -> TextMeshPro -> Import TMP Essential Resources`
+
+## Loading Quill paintings
+
+### Working with our example scenes
+
 - Download the example scenes from [TODO upload scenes on some server]
-- Unzip the example scenes in `Assets/Resources/Preload` (there should be for each scene a `fbx` and a `json` file, as well as corresponding Unity meta files that define how the files are interpreted by the Unity editor)
-- Open `MainScene` (`Assets -> Scenes -> Double click MainScene`)
+- Unzip the example scenes in `Assets/Resources/Preload` (there should be for each scene a `fbx` and a `json` file, as well as corresponding Unity meta files that define how the files are interpreted by the Unity editor => the meta file for the `fbx` file defines Import Settings and is quite important)
+- Open `MainScene` (in `Project` panel: `Assets -> Scenes -> Double click MainScene`)
+
+### Importing your own Quill scenes (basic)
+
+Our app is limited in painting features, so for more complex scenes it can be easier to create most of the geometry in Quill. A Quill painting can be imported with the following process:
+
+- Organize the scene in Quill layers, where each layer corresponds to roughly a single object or kind of object in the scene. Each Quill layer will be made into one of our "shape" layer.
+- Export Quill scene
+  - FBX format
+  - Linear Color Space
+  - Export Meshes (ticked)
+  - Bake Transforms (ticked)
+- Drop the fbx file in `Assets/Resources/Preload`
+- `Import Settings` need to be changed, this can be done by selecting the fbx file asset in Unity and looking at the Inspector panel. We provide a preset: click the preset icon to the top right of the Inspector panel, and choose `QuillFBXImporterPreset`. Alternatively you can try to reproduce settings from the example scenes we provide. The `Scale Factor` might need to be adjusted depending on the scale you worked in, in Quill
+- Follow instructions to [select that scene to be loaded in the app](#choosing-the-scene-to-load)
+
+### Importing your own Quill scenes with distinct brush stroke entities
+
+The issue with the above workflow is that Quill scenes imported that way will have all brush strokes from a Quill layer "baked" as one entity. This means that if you have in Quill a layer `Trees` with multiple tree trunk strokes, once imported into our app you will not be able to individually select, transform, copy or delete individual tree trunk strokes. They will all be "fused" into one entity, in our app.
+
+TODO: add Blender script
+
+We provide a simple Blender script that solves that problem by editing the fbx file to separate each disconnected component into its own object, and re-export the fbx. The script also creates a json file that keeps track of which layer contains each object (so that layers are re-imported correctly in our app). To run it:
+
+```
+blender -b -P preprocess_quill_fbx.py -- -i <path to the FBX file> [-o <output folder path>]
+
+# We are running Blender in background mode (without the UI), see the official Blender doc: https://docs.blender.org/api/current/info_tips_and_tricks.html#use-blender-without-it-s-user-interface
+# Note: Depending on your setup you might have to enter the full path to the Blender executable instead of "blender"
+```
+
+Next drag both the new fbx file and json file into the `Assets/Resources/Preload` folder and proceed as in the previous scenario.
 
 ## Changing handedness
 Set your preferred dominant hand in [TODO]. The dominant hand chosen here will be the one of any executables built, we did not create a UI to change handedness in the executable.
