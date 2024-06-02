@@ -11,7 +11,8 @@ using UnityEngine.XR;
 public class LayerRenderer : MonoBehaviour
 {
     [Header("Highlight current active interaction")]
-    public InputActionProperty highlightCurrentActiveAction;
+    //public InputActionProperty highlightCurrentActiveAction;
+    public InputAction highlightCurrentActiveAction;
 
     [Header("Frame export parameters")]
     public string FrameExportFolder;
@@ -295,7 +296,7 @@ public class LayerRenderer : MonoBehaviour
             layerToHighlight = layerManager.HoveredLayer;
 
         // Highlight button (Y button)
-        if (highlightCurrentActiveAction.action.IsPressed() && layerManager.ActiveLayer != null)
+        if (highlightCurrentActiveAction.IsPressed() && layerManager.ActiveLayer != null)
             layerToHighlight = layerManager.ActiveLayer;
 
         if (layerToHighlight != null)

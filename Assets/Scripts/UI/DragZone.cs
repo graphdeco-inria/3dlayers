@@ -75,7 +75,7 @@ public class DragZone : MonoBehaviour
         float topPos = -GetItemsHeight() * 0.5f;
         float bottomPos = -dragZoneDim.y + GetItemsHeight() * 0.5f;
         float newContainerY = bottomPos + (topPos - bottomPos) * normalizedY;
-        Debug.Log($"top = {topPos} bottom = {bottomPos} newY = {newContainerY}");
+        //Debug.Log($"top = {topPos} bottom = {bottomPos} newY = {newContainerY}");
         itemsContainer.anchoredPosition = new Vector2(itemsContainer.anchoredPosition.x, newContainerY);
     }
 

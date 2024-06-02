@@ -1342,6 +1342,7 @@ GameObject:
   - component: {fileID: 44807542}
   - component: {fileID: 44807541}
   - component: {fileID: 44807540}
+  - component: {fileID: 44807543}
   m_Layer: 5
   m_Name: XR Origin
   m_TagString: Untagged
@@ -1395,6 +1396,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &44807543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44807539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e2ab2e958f45418ceca5ab55d0f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handedness: 1
+  inputActionMapping: {fileID: -944628639613478452, guid: 3e065280aff457b45a69c7d89c6621b1, type: 3}
+  rightHandedSetup: {fileID: 2022290375}
+  leftHandedSetup: {fileID: 1730859449}
+  layerRenderer: {fileID: 1595113105}
 --- !u!1 &54520716
 GameObject:
   m_ObjectHideFlags: 0
@@ -33925,17 +33943,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightCurrentActiveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Highlight Current Active
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 394ec525-ddf0-4fd0-9e0c-d1610bf8e11d
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -2476222584651152928, guid: 3e065280aff457b45a69c7d89c6621b1, type: 3}
+    m_Name: Highlight Current Active
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 94e8a172-4d94-4a47-915d-ac9b3797478a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   FrameExportFolder: 
   FrameExportName: 
 --- !u!23 &1595113106
@@ -33999,8 +34014,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d632c63caa9244cae765b07b906cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileType: 1
-  InputFileName: Desk-diorama_split/2024-05-29-17-31-07_session
+  fileType: 2
+  InputFileName: Pig
 --- !u!114 &1595113109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35216,7 +35231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1700282878
 Transform:
   m_ObjectHideFlags: 0
