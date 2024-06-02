@@ -7,16 +7,12 @@ float4 BlendMode_Normal(float4 base, float4 blend)
 float4 BlendMode_Multiply(float4 base, float4 blend)
 {
     float4 mix = base * blend;
-    mix.a = blend.a;
-    //mix.a = 1.0;
     return mix;
 }
 
 float4 BlendMode_Screen(float4 base, float4 blend)
 {
     float4 mix = 1.0 - (1.0 - base) * (1.0 - blend);
-    mix.a = blend.a;
-    //mix.a = 1.0;
     return mix;
 }
 

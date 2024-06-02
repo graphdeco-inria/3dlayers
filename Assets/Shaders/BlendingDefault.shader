@@ -61,12 +61,16 @@ Shader "VRPaint/BlendingDefault"
 
 				float4 blendColor = tex2D(_MainTex, i.uv);
 
-				blendColor.a *= _LayerOpacity;
+				blendColor *= _LayerOpacity;
 
-				float4 preAlphaColor = Blend(baseColor, blendColor, _ColorMixMode);
-				float3 preMultRGB = preAlphaColor.a * preAlphaColor.rgb;
+				float4 finalColor = Blend(baseColor, blendColor, _ColorMixMode);
 
-				return float4(preMultRGB, preAlphaColor.a);
+				return finalColor;
+
+				// Colors are already alpha premultiplied (we do this upon rendering each brush stroke, see ClippedLayerShader)
+				//float3 preMultRGB = preAlphaColor.a * preAlphaColor.rgb;
+
+				//return float4(preMultRGB, preAlphaColor.a);
 			}
 
 

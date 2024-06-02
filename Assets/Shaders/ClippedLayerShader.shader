@@ -115,7 +115,8 @@ Shader "VRPaint/ClippedLayerShader"
             //ZTest [_ZTest]
             ZWrite Off
             Cull Off
-            Blend SrcAlpha OneMinusSrcAlpha
+            //Blend SrcAlpha OneMinusSrcAlpha
+            Blend One OneMinusSrcAlpha // We work with pre-multiplied alpha colors
             BlendOp Add
 
             Stencil
@@ -170,8 +171,13 @@ Shader "VRPaint/ClippedLayerShader"
             fixed4 frag(v2f i) : SV_Target
             {
 
-                return i.color;
+                //return i.color;
 
+                // Alpha premultiply color to get correct blending behavior between strokes (and between layers)
+                float4 preAlphaColor = i.color;
+                float3 preMultRGB = preAlphaColor.a * preAlphaColor.rgb;
+
+				return float4(preMultRGB, preAlphaColor.a);
             }
             ENDCG
         }

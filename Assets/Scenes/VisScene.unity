@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileType: 2
-  InputFileName: Desk-diorama_split
+  InputFileName: Pig
 --- !u!114 &901516555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,17 +323,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightCurrentActiveAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Highlight Current Active
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: f6708d19-7b76-4a2e-ba7d-a35ecbe032ef
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Name: Highlight Current Active
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 22e4b065-0f97-47fc-b093-83f13f909389
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   FrameExportFolder: Frames~
   FrameExportName: frame
 --- !u!23 &901516556

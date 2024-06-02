@@ -139,15 +139,15 @@ Shader "VRPaint/BlendingGradient"
 
 				//float gradientValue = sceneZ;
 
-				blendColor.a *= _LayerOpacity;
-				blendColor.a *= gradientValue;
+				blendColor *= _LayerOpacity;
+				blendColor *= gradientValue;
 
-				//return Blend(baseColor, blendColor, _ColorMixMode);
+				return Blend(baseColor, blendColor, _ColorMixMode);
 
-				float4 preAlphaColor = Blend(baseColor, blendColor, _ColorMixMode);
-				float3 preMultRGB = preAlphaColor.a * preAlphaColor.rgb;
+				//float4 preAlphaColor = Blend(baseColor, blendColor, _ColorMixMode);
+				//float3 preMultRGB = preAlphaColor.a * preAlphaColor.rgb;
 
-				return float4(preMultRGB, preAlphaColor.a);
+				//return float4(preMultRGB, preAlphaColor.a);
 			}
 
 
