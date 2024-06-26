@@ -308,8 +308,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d632c63caa9244cae765b07b906cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SingleStackMode: 0
   fileType: 2
-  InputFileName: Pig
+  InputFileName: Results/Seascape
 --- !u!114 &901516555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69297ea292ffbe4b9ed7d472c4a5145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FrameExportFolder: Frames~
+  FrameExportName: frame
   highlightCurrentActiveAction:
     m_Name: Highlight Current Active
     m_Type: 0
@@ -331,8 +334,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  FrameExportFolder: Frames~
-  FrameExportName: frame
 --- !u!23 &901516556
 MeshRenderer:
   m_ObjectHideFlags: 0

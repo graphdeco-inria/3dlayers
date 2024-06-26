@@ -15,6 +15,8 @@ public enum InputFileType
 public class LayerManager : MonoBehaviour
 {
 
+    public bool SingleStackMode = false;
+
     private const int MAX_BASE_LAYERS_COUNT = 64;
     //public bool LoadDebugStrokes = false;
 
@@ -297,45 +299,64 @@ public class LayerManager : MonoBehaviour
 
         // Scene-wide stack:
         // Todo: enforce explicitly that UID == 0 for the scene-wide layer
-        BaseLayer scenWideLayer = CreateBaseLayer("Scene", registerInHistory: false);
+
+        BaseLayer sceneWideLayer = CreateBaseLayer("Scene", registerInHistory: false);
 
         string preloadedFBXPath = Path.Combine(folderPath, InputFileName);
         Mesh[] loadedObjects = Resources.LoadAll<Mesh>(preloadedFBXPath);
 
-        // Is there an accompagnying json file?
-        //string preloadedJSONPath = Path.Combine("Preload", InputFileName + ".json");
-        TextAsset targetFile = Resources.Load<TextAsset>(preloadedFBXPath);
-        if (targetFile)
+        if (SingleStackMode)
         {
-            Debug.Log(targetFile.text);
-            Dictionary<string, string[]> layerHierarchy = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(targetFile.text);
-            foreach (string key in layerHierarchy.Keys)
-            {
-                Debug.Log($"Creating base layer for: {key}");
-                BaseLayer l = CreateBaseLayer(key, registerInHistory: false);
-                Debug.Log($"Base Layer UID = {l.UID}");
-                ActiveLayer = l;
-                foreach (string meshName in layerHierarchy[key])
-                {
-                    Mesh subMesh = loadedObjects.First(o => o.name == meshName);
-                    PreloadedPrimitive p = canvas.Preload(preloadedFBXPath, meshName, subMesh);
-                }
-
-            }
-        }
-        else
-        {
+            Debug.Log($"Creating single base layer for the whole scene (Single Stack Mode)");
+            BaseLayer l = CreateBaseLayer("All", registerInHistory: false);
+            ActiveLayer = l;
             for (int i = 0; i < loadedObjects.Length; i++)
             {
                 Mesh subMesh = loadedObjects[i];
                 Debug.Log(string.Format("mesh found: {0}", subMesh.name));
-                // Create layer
-                BaseLayer l = CreateBaseLayer($"{subMesh.name}", registerInHistory: false);
-                Debug.Log($"Created base layer {l.UID} for Quill layer {subMesh.name}.");
-                ActiveLayer = l;
                 PreloadedPrimitive p = canvas.Preload(preloadedFBXPath, subMesh.name, subMesh);
             }
         }
+        else
+        {
+            // Is there an accompagnying json file?
+            //string preloadedJSONPath = Path.Combine("Preload", InputFileName + ".json");
+            TextAsset targetFile = Resources.Load<TextAsset>(preloadedFBXPath);
+            if (targetFile)
+            {
+                Debug.Log(targetFile.text);
+                Dictionary<string, string[]> layerHierarchy = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(targetFile.text);
+                foreach (string key in layerHierarchy.Keys)
+                {
+                    Debug.Log($"Creating base layer for: {key}");
+                    BaseLayer l = CreateBaseLayer(key, registerInHistory: false);
+                    Debug.Log($"Base Layer UID = {l.UID}");
+                    ActiveLayer = l;
+                    foreach (string meshName in layerHierarchy[key])
+                    {
+                        Mesh subMesh = loadedObjects.First(o => o.name == meshName);
+                        PreloadedPrimitive p = canvas.Preload(preloadedFBXPath, meshName, subMesh);
+                    }
+
+                }
+            }
+            else
+            {
+                Debug.Log("loading all as a single stack");
+                for (int i = 0; i < loadedObjects.Length; i++)
+                {
+                    Mesh subMesh = loadedObjects[i];
+                    Debug.Log(string.Format("mesh found: {0}", subMesh.name));
+                    // Create layer
+                    BaseLayer l = CreateBaseLayer($"{subMesh.name}", registerInHistory: false);
+                    Debug.Log($"Created base layer {l.UID} for Quill layer {subMesh.name}.");
+                    ActiveLayer = l;
+                    PreloadedPrimitive p = canvas.Preload(preloadedFBXPath, subMesh.name, subMesh);
+                }
+            }
+        }
+
+
     }
 
     private void OnDisable()

@@ -23,11 +23,13 @@ float BlendMode_Overlay(float base, float blend)
 
 float4 BlendMode_Overlay(float4 base, float4 blend)
 {
-	return float4(  BlendMode_Overlay(base.r, blend.r), 
-					BlendMode_Overlay(base.g, blend.g), 
-					BlendMode_Overlay(base.b, blend.b),
-                    //1.0);
-                    blend.a );
+    if (blend.a == 0)
+        return 0;
+    float3 rgbBlend = float3(blend.r / blend.a, blend.g / blend.a, blend.b / blend.a);
+	return blend.a * float4(  BlendMode_Overlay(base.r, rgbBlend.r), 
+					BlendMode_Overlay(base.g, rgbBlend.g), 
+					BlendMode_Overlay(base.b, rgbBlend.b),
+                    1.0);
 }
 
 float4 Blend(float4 baseColor, float4 blendColor, int mixMode)

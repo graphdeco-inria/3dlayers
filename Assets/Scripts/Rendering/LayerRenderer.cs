@@ -10,13 +10,14 @@ using UnityEngine.XR;
 //[ExecuteInEditMode]
 public class LayerRenderer : MonoBehaviour
 {
-    [Header("Highlight current active interaction")]
-    //public InputActionProperty highlightCurrentActiveAction;
-    public InputAction highlightCurrentActiveAction;
 
     [Header("Frame export parameters")]
     public string FrameExportFolder;
     public string FrameExportName;
+
+    // We set this through HandednessManager script (the button varies between right/left handed setups)
+    [HideInInspector]
+    public InputAction highlightCurrentActiveAction;
 
     private Camera[] cameras;
 

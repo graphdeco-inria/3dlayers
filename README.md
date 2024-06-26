@@ -74,11 +74,10 @@ Our app is limited in painting features, so for more complex scenes it can be ea
 
 The issue with the above workflow is that Quill scenes imported that way will have all brush strokes from a Quill layer "baked" as one entity. This means that if you have in Quill a layer `Trees` with multiple tree trunk strokes, once imported into our app you will not be able to individually select, transform, copy or delete individual tree trunk strokes. They will all be "fused" into one entity, in our app.
 
-TODO: add Blender script
-
-We provide a simple Blender script that solves that problem by editing the fbx file to separate each disconnected component into its own object, and re-export the fbx. The script also creates a json file that keeps track of which layer contains each object (so that layers are re-imported correctly in our app). To run it:
+We provide a simple [Blender script](preprocess_quill_fbx.py) that solves that problem by editing the fbx file to separate each disconnected component into its own object, and re-export the fbx. The script also creates a json file that keeps track of which layer contains each object (so that layers are re-imported correctly in our app). To run it:
 
 ```
+cd 3dlayers
 blender -b -P preprocess_quill_fbx.py -- -i <path to the FBX file> [-o <output folder path>]
 
 # We are running Blender in background mode (without the UI), see the official Blender doc: https://docs.blender.org/api/current/info_tips_and_tricks.html#use-blender-without-it-s-user-interface
@@ -88,7 +87,12 @@ blender -b -P preprocess_quill_fbx.py -- -i <path to the FBX file> [-o <output f
 Next drag both the new fbx file and json file into the `Assets/Resources/Preload` folder and proceed as in the previous scenario.
 
 ## Changing handedness
-Set your preferred dominant hand in [TODO]. The dominant hand chosen here will be the one of any executables built, we did not create a UI to change handedness in the executable.
+Set your preferred dominant hand:
+
+- Inspect the `XR Origin` gameobject (click on it in the Scene Hierarchy panel)
+- In `Handedness Manager` component, choose your preferred `Handedness` 
+
+The dominant hand chosen here will be the one of any executables built, we did not create a UI to change handedness in the executable.
 
 ## Choosing the scene to load
 The scene that will be loaded on `Play` and in a built executable can be switched in the Unity Editor.
@@ -109,10 +113,17 @@ You can also refer to a cheatsheet for controllers button mappings in the VR app
 
 Clicking `Save` in the VR painting app creates log files in `Assets/SessionData~/[Scene Name]`. There is both a json and binary log file, the json log files are purely for practical data analysis, Unity will always read the binary `.dat` log files to reload sessions.
 
+## Building the app
+
+- File > Build Settings > Build > choose a build folder...
+- This creates an executable application `3DLayers.exe` that can be used on any compatible Windows machine + headset. The handedness and scene loaded are set at build time and can't be changed later.
+
 ## Visualizing 3D paintings and past painting sessions
 
+Once you have created a beautiful VR painting, you can inspect it out of VR, directly in the Unity editor:
+
 - Open the scene `VisScene`
-- Select the session log to visualize in `Canvas > Layers > Layer Manager`, by specifying `Input File Name`. The `File type` should be set in `Latest` or `Session` here
+- Select the session log to visualize in `Canvas > Layers > Layer Manager`, by specifying `Input File Name`. The `File type` should be set to`Latest` or `Session` here
 - Click `Play`
 - This should load the session in the state it was at save time
 - Available visualization possibilities:
