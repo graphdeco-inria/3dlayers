@@ -2,7 +2,7 @@
 
 In this repository, we share the source code for the prototype implementation of the research paper:
 
-"3D-Layers: Bringing Layer-Based Color Editing to VR Painting", Emilie Yu, Fanny Chevalier, Karan Singh and Adrien Bousseau, ACM Transactions on Graphics (SIGGRAPH) - 2024
+> "3D-Layers: Bringing Layer-Based Color Editing to VR Painting", Emilie Yu, Fanny Chevalier, Karan Singh and Adrien Bousseau, ACM Transactions on Graphics (SIGGRAPH) - 2024
 
 This is a Unity project that implements a simple VR application compatible with Quest 2/3/Pro headsets. The project features:
 
@@ -52,7 +52,7 @@ If building on this work, please consider citing our paper:
 
 ### Working with our example scenes
 
-- Download the example scenes from [TODO upload scenes on some server]
+- Download the example scenes: https://ns.inria.fr/d3/3DLayers/Preload_paintings.zip
 - Unzip the example scenes in `Assets/Resources/Preload` (there should be for each scene a `fbx` and a `json` file, as well as corresponding Unity meta files that define how the files are interpreted by the Unity editor => the meta file for the `fbx` file defines Import Settings and is quite important)
 - Open `MainScene` (in `Project` panel: `Assets -> Scenes -> Double click MainScene`)
 
@@ -102,8 +102,8 @@ These parameters affect loading in the following way:
 - `File Type`:
     - `FBX`: loads the fbx/json files pair with a matching name based on the value of `Input File Name`
     - `Session`: loads a session history file with a matching path based on the value of `Input File Name`
-    - `Latest`: if any previous session for this scene was saved, this will load the most recent one, otherwise it will load the matching fbx/json files. It relies on the fact that logs for a specific scene get saved in a folder matching the scene name, when clicking the `Save` button in the VR app.
-- `Input File Name`: the scene name (eg `Desk-diorama`), or the session log file name. Note that if you're specifying a session log, you can also set this as being a relative path to `Assets/SessionData~`, eg `Desk-diorama/2024-05-29-17-31-07_session` would be a valid value for this parameter, given that that session log exists.
+    - `Latest`: if any previous session for this scene was saved, this will load the most recent one, otherwise it will load the matching fbx/json files. It relies on the fact that logs for a specific scene get saved in a folder matching the scene name, when clicking the `Save` button in the VR app. You can also put as `Input File Name` any relative path to a folder, eg `Results/Seascape`, and the latest log in the folder `Assets/SessionData~/Results/Seascape` will be loaded.
+- `Input File Name`: the scene name (eg `Pig_final`), or the session log file name. Note that if you're specifying a session log, you can also set this as being a relative path to `Assets/SessionData~`, eg `Pig_final/2024-05-29-17-31-07_session` would be a valid value for this parameter, in `Session` mode, given that that session log exists.
 
 ## Using the VR painting app
 
@@ -120,7 +120,7 @@ Clicking `Save` in the VR painting app creates log files in `Assets/SessionData~
 
 ## Visualizing 3D paintings and past painting sessions
 
-Once you have created a beautiful VR painting, you can inspect it out of VR, directly in the Unity editor:
+Once you have created a beautiful VR painting, you can inspect it out of VR, directly in the Unity editor. We also provide the session logs from some of our results, you can download them [here](https://ns.inria.fr/d3/3DLayers/Session_logs.zip), and extract the contents to `Assets/SessionData~`.
 
 - Open the scene `VisScene`
 - Select the session log to visualize in `Canvas > Layers > Layer Manager`, by specifying `Input File Name`. The `File type` should be set to`Latest` or `Session` here
@@ -135,7 +135,8 @@ Once you have created a beautiful VR painting, you can inspect it out of VR, dir
 
 ## Where to find code described in the paper
 
-TODO
+- **The 3D-Layers rendering algorithm (Sec.4.3):** this is mainly described in [`LayerRenderer.cs`](tree/main/Assets/Scripts/Rendering). We schedule rendering commands (eg `DrawMesh` and `Blit`) with command buffers. The materials used in these commands depends on the kind of layer (Shape or Appearance layer), and the properties of the material vary depending on layer properties. The materials are defined by shaders: [`BaseLayerShader.shader`](tree/main/Assets/Shaders/BaseLayerShader.shader) is for shape layers, [`ClippedLayerShader.shader`](tree/main/Assets/Shaders/ClippedLayerShader.shader) / [`ClippedLayerPermissiveShader.shader`](tree/main/Assets/Shaders/ClippedLayerPermissiveShader.shader) are for appearance layers. These shaders make sure that we render only the intersection of permissive intersection of clipped layer strokes. Color blending (with different blending modes) and gradients are computed by shaders: [`BlendingDefault.shader`](tree/main/Assets/Shaders/BlendingDefault.shader) and [`BlendingGradient`](tree/main/Assets/Shaders/BlendingGradient.shader).
+- **Layer stacks (Sec.4.2):** we define the data structures for strokes, layers and primitives in `Assets/Scripts/Data Structures` folder. The [LayerManager](tree/main/Assets/Scripts/Data%20Structures/LayerManager.cs) is responsible for keeping track of the stacks.
 
 ## Credits
 
