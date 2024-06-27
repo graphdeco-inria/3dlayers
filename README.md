@@ -1,5 +1,7 @@
 # 3DLayers: Bringing Layer-Based Color Editing to VR Painting
 
+![3DLs teaser image](https://em-yu.github.io/media/figures/3DLs/teaser_website.png)
+
 In this repository, we share the source code for the prototype implementation of the research paper:
 
 > "3D-Layers: Bringing Layer-Based Color Editing to VR Painting", Emilie Yu, Fanny Chevalier, Karan Singh and Adrien Bousseau, ACM Transactions on Graphics (SIGGRAPH) - 2024
@@ -21,9 +23,11 @@ If building on this work, please consider citing our paper:
   volume       = "43",
   month        = "July",
   year         = "2024",
-  url          = "http://www-sop.inria.fr/reves/Basilic/2024/YCSB24"
+  url          = "https://doi.org/10.1145/3658183"
 }
 ```
+
+**Note on data:** we provide data from our results and user studies for the purpose of reproducing the paper's results and trying out the app, please **do not use provided data for other uses** such as training data for ML without asking for explicit permission.
 
 ## Requirements
 
@@ -135,7 +139,7 @@ Once you have created a beautiful VR painting, you can inspect it out of VR, dir
 
 ## Where to find code described in the paper
 
-- **The 3D-Layers rendering algorithm (Sec.4.3):** this is mainly described in `Assets/Scripts/RenderingLayerRenderer.cs`. We schedule rendering commands (eg `DrawMesh` and `Blit`) with command buffers. The materials used in these commands depends on the kind of layer (Shape or Appearance layer), and the properties of the material vary depending on layer properties. The materials are defined by shaders: `Assets/Shaders/BaseLayerShader.shader` is for shape layers, `Assets/Shaders/ClippedLayerShader.shader` / `Assets/Shaders/ClippedLayerPermissiveShader.shader` are for appearance layers. These shaders make sure that we render only the intersection of permissive intersection of clipped layer strokes. Color blending (with different blending modes) and gradients are computed by shaders: `Assets/Shaders/BlendingDefault.shader` and `Assets/Shaders/BlendingGradient.shader`.
+- **The 3D-Layers rendering algorithm (Sec.4.3):** this is mainly described in `Assets/Scripts/RenderingLayerRenderer.cs`. We schedule rendering commands (eg `DrawMesh` and `Blit`) with command buffers. The materials used in these commands depends on the kind of layer (Substrate or Appearance layer), and the properties of the material vary depending on layer properties. The materials are defined by shaders: `Assets/Shaders/BaseLayerShader.shader` is for substrate layers, `Assets/Shaders/ClippedLayerShader.shader` / `Assets/Shaders/ClippedLayerPermissiveShader.shader` are for appearance layers. These shaders make sure that we render only the intersection or permissive intersection of appearance layer strokes with the substrate strokes. Color blending (with different blending modes) and gradients are computed by shaders: `Assets/Shaders/BlendingDefault.shader` and `Assets/Shaders/BlendingGradient.shader`.
 - **Layer stacks (Sec.4.2):** we define the data structures for strokes, layers and primitives in `Assets/Scripts/Data Structures` folder. The LayerManager (`Assets/Scripts/Data Structures/LayerManager.cs`) is responsible for keeping track of the stacks.
 
 ## Credits
